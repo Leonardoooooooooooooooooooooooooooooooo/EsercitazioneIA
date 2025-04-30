@@ -1,0 +1,819 @@
+Primo input al IA :  sviluppare il seguente programma in linguaggio HTML, CSS, JAVASCRIPT e PYTHON.
+
+Creare un form di registrazione studenti ad una piattaforma. 
+Devono essere presenti le seguenti pagine: home, registrati
+Nella pagina "home" deve essere presente la lista aggiornata degli studenti registrati.
+Nella pagina "registrati" deve essere presente un form di registrazione con i seguenti dati: nome, cognome, data di nascita, email, corso.
+Il form deve essere controllato e validato nei suoi campi (esistenza e correttezza del campo)
+I dati degli studenti possono essere salvati nella localStorage per essere letti in home.
+
+
+Risultato: 
+Homepage: <!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piattaforma Studenti - Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Piattaforma Studenti</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="registrati.html">Registrati</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            <section class="students-section">
+                <h2>Studenti Registrati</h2>
+                <div class="student-controls">
+                    <input type="text" id="searchStudent" placeholder="Cerca studente...">
+                    <button id="clearStudents" class="danger-btn">Cancella tutti</button>
+                </div>
+                <div id="studentsList" class="students-list">
+                    <table id="studentsTable">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Cognome</th>
+                                <th>Data di Nascita</th>
+                                <th>Email</th>
+                                <th>Corso</th>
+                                <th>Azioni</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTableBody">
+                            <!-- Gli studenti verranno inseriti qui dinamicamente -->
+                        </tbody>
+                    </table>
+                    <p id="noStudents" class="no-data-message">Nessuno studente registrato.</p>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 Piattaforma Studenti</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+Pagina di registrazione: <!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piattaforma Studenti - Registrati</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Piattaforma Studenti</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="registrati.html" class="active">Registrati</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            <section class="registration-section">
+                <h2>Registrazione Nuovo Studente</h2>
+                <form id="registrationForm" novalidate>
+                    <div class="form-group">
+                        <label for="nome">Nome *</label>
+                        <input type="text" id="nome" name="nome" required>
+                        <span class="error-message" id="nomeError"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cognome">Cognome *</label>
+                        <input type="text" id="cognome" name="cognome" required>
+                        <span class="error-message" id="cognomeError"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dataNascita">Data di Nascita *</label>
+                        <input type="date" id="dataNascita" name="dataNascita" required>
+                        <span class="error-message" id="dataNascitaError"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                        <span class="error-message" id="emailError"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="corso">Corso *</label>
+                        <select id="corso" name="corso" required>
+                            <option value="">-- Seleziona un corso --</option>
+                            <option value="Informatica">Informatica</option>
+                            <option value="Matematica">Matematica</option>
+                            <option value="Fisica">Fisica</option>
+                            <option value="Ingegneria">Ingegneria</option>
+                            <option value="Economia">Economia</option>
+                            <option value="Medicina">Medicina</option>
+                        </select>
+                        <span class="error-message" id="corsoError"></span>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="reset" class="secondary-btn">Cancella</button>
+                        <button type="submit" class="primary-btn">Registra</button>
+                    </div>
+                </form>
+                <div id="successMessage" class="success-message">
+                    Registrazione completata con successo!
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 Piattaforma Studenti</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+Stylesheet:/* Resettiamo alcuni stili di base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f7fa;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Header e navigazione */
+header {
+    background-color: #3f51b5;
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+}
+
+nav ul li {
+    margin: 0 10px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+nav ul li a.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    font-weight: bold;
+}
+
+/* Main Content */
+main {
+    padding: 2rem 0;
+    min-height: calc(100vh - 170px);
+}
+
+section {
+    background-color: white;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+}
+
+section h2 {
+    color: #3f51b5;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+/* Form styles */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #3f51b5;
+    box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.1);
+}
+
+.error-message {
+    color: #d32f2f;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+.primary-btn {
+    background-color: #3f51b5;
+    color: white;
+}
+
+.primary-btn:hover {
+    background-color: #303f9f;
+}
+
+.secondary-btn {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.secondary-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.danger-btn {
+    background-color: #d32f2f;
+    color: white;
+}
+
+.danger-btn:hover {
+    background-color: #b71c1c;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+table th,
+table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+table th {
+    background-color: #f5f7fa;
+    font-weight: 600;
+}
+
+table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+.student-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    align-items: center;
+}
+
+#searchStudent {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 300px;
+    font-size: 1rem;
+}
+
+.no-data-message {
+    text-align: center;
+    color: #757575;
+    margin: 2rem 0;
+    font-style: italic;
+}
+
+.student-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.student-actions button {
+    padding: 0.5rem;
+    font-size: 0.875rem;
+}
+
+/* Success message */
+.success-message {
+    background-color: #4caf50;
+    color: white;
+    padding: 1rem;
+    border-radius: 4px;
+    text-align: center;
+    margin-top: 1rem;
+    display: none;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1.5rem 0;
+    color: #757575;
+    border-top: 1px solid #f0f0f0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .student-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+    
+    #searchStudent {
+        width: 100%;
+    }
+    
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .form-actions button {
+        width: 100%;
+    }
+}
+
+
+
+
+
+Codice JS: 
+// Funzioni per la gestione del localStorage
+const studentsStorage = {
+    getStudents: function() {
+        const students = localStorage.getItem('students');
+        return students ? JSON.parse(students) : [];
+    },
+    
+    saveStudent: function(student) {
+        const students = this.getStudents();
+        students.push(student);
+        localStorage.setItem('students', JSON.stringify(students));
+    },
+    
+    clearStudents: function() {
+        localStorage.removeItem('students');
+    },
+    
+    deleteStudent: function(email) {
+        let students = this.getStudents();
+        students = students.filter(student => student.email !== email);
+        localStorage.setItem('students', JSON.stringify(students));
+    }
+};
+
+// Validazione del form
+const validators = {
+    // Valida che il campo non sia vuoto
+    required: function(value) {
+        return value.trim() !== '';
+    },
+    
+    // Valida il formato dell'email
+    email: function(value) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(value);
+    },
+    
+    // Valida che la data di nascita sia nel passato e che lo studente abbia almeno 16 anni
+    dataNascita: function(value) {
+        const today = new Date();
+        const birthDate = new Date(value);
+        
+        if (birthDate > today) {
+            return false;
+        }
+        
+        // Calcola l'età
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        
+        return age >= 16;
+    }
+};
+
+// Gestione della pagina di registrazione
+function setupRegistrationForm() {
+    const form = document.getElementById('registrationForm');
+    if (!form) return;
+    
+    const successMessage = document.getElementById('successMessage');
+    
+    // Handle form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Ottieni i valori dal form
+        const nome = document.getElementById('nome').value;
+        const cognome = document.getElementById('cognome').value;
+        const dataNascita = document.getElementById('dataNascita').value;
+        const email = document.getElementById('email').value;
+        const corso = document.getElementById('corso').value;
+        
+        // Reset errori precedenti
+        document.querySelectorAll('.error-message').forEach(el => {
+            el.textContent = '';
+        });
+        
+        // Validazione
+        let isValid = true;
+        
+        // Nome
+        if (!validators.required(nome)) {
+            document.getElementById('nomeError').textContent = 'Il nome è obbligatorio';
+            isValid = false;
+        }
+        
+        // Cognome
+        if (!validators.required(cognome)) {
+            document.getElementById('cognomeError').textContent = 'Il cognome è obbligatorio';
+            isValid = false;
+        }
+        
+        // Data di nascita
+        if (!validators.required(dataNascita)) {
+            document.getElementById('dataNascitaError').textContent = 'La data di nascita è obbligatoria';
+            isValid = false;
+        } else if (!validators.dataNascita(dataNascita)) {
+            document.getElementById('dataNascitaError').textContent = 'La data di nascita deve essere nel passato e lo studente deve avere almeno 16 anni';
+            isValid = false;
+        }
+        
+        // Email
+        if (!validators.required(email)) {
+            document.getElementById('emailError').textContent = 'L\'email è obbligatoria';
+            isValid = false;
+        } else if (!validators.email(email)) {
+            document.getElementById('emailError').textContent = 'Inserisci un indirizzo email valido';
+            isValid = false;
+        } else {
+            // Verifica che l'email non sia già registrata
+            const students = studentsStorage.getStudents();
+            if (students.some(student => student.email === email)) {
+                document.getElementById('emailError').textContent = 'Questa email è già registrata';
+                isValid = false;
+            }
+        }
+        
+        // Corso
+        if (!validators.required(corso)) {
+            document.getElementById('corsoError').textContent = 'Seleziona un corso';
+            isValid = false;
+        }
+        
+        // Se tutti i dati sono validi, salva lo studente
+        if (isValid) {
+            const student = {
+                nome,
+                cognome,
+                dataNascita,
+                email,
+                corso,
+                dataRegistrazione: new Date().toISOString()
+            };
+            
+            studentsStorage.saveStudent(student);
+            
+            // Mostra il messaggio di successo
+            successMessage.style.display = 'block';
+            
+            // Reset del form
+            form.reset();
+            
+            // Nascondi il messaggio di successo dopo 3 secondi
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+        }
+    });
+}
+
+// Gestione della pagina home
+function setupHomePage() {
+    const studentsList = document.getElementById('studentsList');
+    if (!studentsList) return;
+    
+    const studentsTableBody = document.getElementById('studentsTableBody');
+    const noStudentsMessage = document.getElementById('noStudents');
+    const searchInput = document.getElementById('searchStudent');
+    const clearButton = document.getElementById('clearStudents');
+    
+    // Funzione per aggiornare la lista degli studenti
+    function updateStudentsList(filterText = '') {
+        const students = studentsStorage.getStudents();
+        
+        studentsTableBody.innerHTML = '';
+        
+        if (students.length === 0) {
+            noStudentsMessage.style.display = 'block';
+            document.getElementById('studentsTable').style.display = 'none';
+            return;
+        }
+        
+        noStudentsMessage.style.display = 'none';
+        document.getElementById('studentsTable').style.display = 'table';
+        
+        // Filtra gli studenti in base al testo di ricerca
+        const filteredStudents = filterText 
+            ? students.filter(student => 
+                student.nome.toLowerCase().includes(filterText.toLowerCase()) || 
+                student.cognome.toLowerCase().includes(filterText.toLowerCase()) ||
+                student.email.toLowerCase().includes(filterText.toLowerCase()) ||
+                student.corso.toLowerCase().includes(filterText.toLowerCase())
+            )
+            : students;
+        
+        if (filteredStudents.length === 0) {
+            studentsTableBody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="no-data-message">Nessun risultato trovato</td>
+                </tr>
+            `;
+            return;
+        }
+        
+        // Aggiungi gli studenti alla tabella
+        filteredStudents.forEach(student => {
+            const row = document.createElement('tr');
+            
+            // Formattazione della data di nascita
+            const birthDate = new Date(student.dataNascita);
+            const formattedBirthDate = `${birthDate.getDate().toString().padStart(2, '0')}/${(birthDate.getMonth() + 1).toString().padStart(2, '0')}/${birthDate.getFullYear()}`;
+            
+            row.innerHTML = `
+                <td>${student.nome}</td>
+                <td>${student.cognome}</td>
+                <td>${formattedBirthDate}</td>
+                <td>${student.email}</td>
+                <td>${student.corso}</td>
+                <td class="student-actions">
+                    <button class="danger-btn delete-student" data-email="${student.email}">Elimina</button>
+                </td>
+            `;
+            
+            studentsTableBody.appendChild(row);
+        });
+        
+        // Aggiungi event listener per i pulsanti di eliminazione
+        document.querySelectorAll('.delete-student').forEach(button => {
+            button.addEventListener('click', function() {
+                const email = this.getAttribute('data-email');
+                if (confirm('Sei sicuro di voler eliminare questo studente?')) {
+                    studentsStorage.deleteStudent(email);
+                    updateStudentsList(searchInput.value);
+                }
+            });
+        });
+    }
+    
+    // Aggiorna la lista all'avvio
+    updateStudentsList();
+    
+    // Aggiorna la lista quando l'utente cerca
+    searchInput.addEventListener('input', function() {
+        updateStudentsList(this.value);
+    });
+    
+    // Cancella tutti gli studenti
+    clearButton.addEventListener('click', function() {
+        if (confirm('Sei sicuro di voler eliminare tutti gli studenti? Questa azione non può essere annullata.')) {
+            studentsStorage.clearStudents();
+            updateStudentsList();
+        }
+    });
+}
+
+// Inizializza la pagina corrente
+document.addEventListener('DOMContentLoaded', function() {
+    setupRegistrationForm();
+    setupHomePage();
+});
+
+
+Server Python:
+from flask import Flask, request, jsonify, render_template, send_from_directory
+import json
+import os
+from datetime import datetime
+import re
+
+app = Flask(__name__, static_folder='.')
+
+# Percorso del file JSON per salvare i dati degli studenti
+DATA_FILE = 'students.json'
+
+# Classe per la validazione
+class Validator:
+    @staticmethod
+    def required(value):
+        return value and value.strip() != ''
+    
+    @staticmethod
+    def email(value):
+        # Espressione regolare per validare le email
+        pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        return re.match(pattern, value) is not None
+    
+    @staticmethod
+    def date_of_birth(value):
+        try:
+            # Converti la stringa in data
+            birth_date = datetime.strptime(value, '%Y-%m-%d')
+            today = datetime.now()
+            
+            # Controlla che la data sia nel passato
+            if birth_date > today:
+                return False
+            
+            # Calcola l'età
+            age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+            
+            # Controlla che l'età sia almeno 16 anni
+            return age >= 16
+        except:
+            return False
+
+# Funzioni per la gestione dei dati
+def get_students():
+    if not os.path.exists(DATA_FILE):
+        return []
+    
+    try:
+        with open(DATA_FILE, 'r') as file:
+            return json.load(file)
+    except:
+        return []
+
+def save_students(students):
+    with open(DATA_FILE, 'w') as file:
+        json.dump(students, file, indent=2)
+
+# Routes
+@app.route('/')
+def index():
+    return send_from_directory('.', 'index.html')
+
+@app.route('/<path:path>')
+def static_files(path):
+    return send_from_directory('.', path)
+
+@app.route('/api/students', methods=['GET'])
+def get_all_students():
+    return jsonify(get_students())
+
+@app.route('/api/students', methods=['POST'])
+def add_student():
+    data = request.json
+    
+    # Validazione
+    errors = {}
+    
+    if not Validator.required(data.get('nome', '')):
+        errors['nome'] = 'Il nome è obbligatorio'
+    
+    if not Validator.required(data.get('cognome', '')):
+        errors['cognome'] = 'Il cognome è obbligatorio'
+    
+    if not Validator.required(data.get('dataNascita', '')):
+        errors['dataNascita'] = 'La data di nascita è obbligatoria'
+    elif not Validator.date_of_birth(data.get('dataNascita', '')):
+        errors['dataNascita'] = 'La data di nascita deve essere valida e lo studente deve avere almeno 16 anni'
+    
+    if not Validator.required(data.get('email', '')):
+        errors['email'] = 'L\'email è obbligatoria'
+    elif not Validator.email(data.get('email', '')):
+        errors['email'] = 'Inserisci un indirizzo email valido'
+    else:
+        # Verifica che l'email non sia già registrata
+        students = get_students()
+        if any(student['email'] == data['email'] for student in students):
+            errors['email'] = 'Questa email è già registrata'
+    
+    if not Validator.required(data.get('corso', '')):
+        errors['corso'] = 'Seleziona un corso'
+    
+    if errors:
+        return jsonify({'success': False, 'errors': errors}), 400
+    
+    # Aggiunta dello studente
+    students = get_students()
+    student = {
+        'nome': data['nome'],
+        'cognome': data['cognome'],
+        'dataNascita': data['dataNascita'],
+        'email': data['email'],
+        'corso': data['corso'],
+        'dataRegistrazione': datetime.now().isoformat()
+    }
+    
+    students.append(student)
+    save_students(students)
+    
+    return jsonify({'success': True, 'student': student})
+
+@app.route('/api/students/<email>', methods=['DELETE'])
+def delete_student(email):
+    students = get_students()
+    original_count = len(students)
+    
+    students = [student for student in students if student['email'] != email]
+    
+    if len(students) < original_count:
+        save_students(students)
+        return jsonify({'success': True})
+    else:
+        return jsonify({'success': False, 'message': 'Studente non trovato'}), 404
+
+@app.route('/api/students/clear', methods=['DELETE'])
+def clear_students():
+    save_students([])
+    return jsonify({'success': True})
+
+if __name__ == '__main__':
+    app.run(debug=True)

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piattaforma Studenti - Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Piattaforma Studenti</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="registrati.html">Registrati</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            <section class="students-section">
+                <h2>Studenti Registrati</h2>
+                <div class="student-controls">
+                    <input type="text" id="searchStudent" placeholder="Cerca studente...">
+                    <button id="clearStudents" class="danger-btn">Cancella tutti</button>
+                </div>
+                <div id="studentsList" class="students-list">
+                    <table id="studentsTable">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Cognome</th>
+                                <th>Data di Nascita</th>
+                                <th>Email</th>
+                                <th>Corso</th>
+                                <th>Azioni</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTableBody">
+                            <!-- Gli studenti verranno inseriti qui dinamicamente -->
+                        </tbody>
+                    </table>
+                    <p id="noStudents" class="no-data-message">Nessuno studente registrato.</p>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 Piattaforma Studenti</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
